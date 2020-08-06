@@ -676,8 +676,10 @@ if errorlevel 3010 exit /b 0
           (match if_default_gateway with
            | None -> ()
            | Some gw ->
-              List.push_back args "-DefaultGateway";
-              List.push_back args (sprintf "'%s'" gw)
+              if gw <> "" then (
+                List.push_back args "-DefaultGateway";
+                List.push_back args (sprintf "'%s'" gw)
+              );
           );
           (match if_prefix_length with
            | None -> ()

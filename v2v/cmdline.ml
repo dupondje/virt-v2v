@@ -144,8 +144,9 @@ let parse_cmdline () =
      * come in too many valid forms to check thoroughly.
      *)
     let rec error_unless_ip_addr what addr =
-      if not (PCRE.matches mac_ip_re addr) then
-        error (f_"cannot parse --mac ip %s: doesn’t look like “%s” is an IP address") what addr
+      if what <> "gw" || (what == "gw" && addr <> "") then
+        if not (PCRE.matches mac_ip_re addr) then
+          error (f_"cannot parse --mac ip %s: doesn’t look like “%s” is an IP address") what addr
     in
     error_unless_ip_addr "ipaddr" if_ip_address;
     Option.may (error_unless_ip_addr "gw") if_default_gateway;
